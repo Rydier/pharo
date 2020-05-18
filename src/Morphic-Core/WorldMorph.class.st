@@ -80,6 +80,7 @@ WorldMorph class >> displayScaleFactorSettingsOn: aBuilder [
 	(aBuilder range: #displayScaleFactor)
 		parent: #appearance;
 		order: 3;
+		default: 1;
 		label: 'Display scale factor';
 		description: 'Specify scale factor for UI elements. This setting does not affect defined font sizes.';
 		target: self;
@@ -369,6 +370,13 @@ WorldMorph >> fullRepaintNeeded [
 
 ]
 
+{ #category : #'event handling' }
+WorldMorph >> fullscreenChanged: fullscreenAnnouncement [
+
+	self currentWorld worldState worldRenderer fullscreenMode: fullscreenAnnouncement fullscreen
+	
+]
+
 { #category : #'world state' }
 WorldMorph >> haloMorphs [
 
@@ -397,9 +405,11 @@ WorldMorph >> initialize [
 	worldState := WorldState new.
  	super initialize.
 	
+	SystemAnnouncer uniqueInstance weak when: FullscreenAnnouncement send: #fullscreenChanged: to: self.	
+	
 	"subscribe to the tools registry to update the world menu when needed"
 	Smalltalk tools whenToolRegistered: [ :tool :toolName | WorldState defaultWorldMenu ].
-	Smalltalk tools whenToolUnregistered: [ :tool :toolName | WorldState defaultWorldMenu ]
+	Smalltalk tools whenToolUnregistered: [ :tool :toolName | WorldState defaultWorldMenu ].
 ]
 
 { #category : #'change reporting' }

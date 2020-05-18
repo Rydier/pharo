@@ -4,40 +4,6 @@ Class {
 	#category : #'Fuel-Platform-Pharo-Core'
 }
 
-{ #category : #testing }
-FLPharoPlatform class >> addNativeBoostComponents [
-	Smalltalk
-		at: #NBExternalHandle
-		ifPresent: [ :handle | ^ self ].
-		
-	Object variableByteSubclass: #NBExternalHandle
-		instanceVariableNames: ''
-		classVariableNames: ''
-		category: self hacksCategoryName
-]
-
-{ #category : #testing }
-FLPharoPlatform class >> addPackageManifest [
-	Smalltalk
-		at: #PackageManifest
-		ifPresent: [ ^ self ].
-	
-	Object subclass: #PackageManifest
-		instanceVariableNames: ''
-		classVariableNames: ''
-		poolDictionaries: ''
-		category: self hacksCategoryName
-]
-
-{ #category : #'private-hacks' }
-FLPharoPlatform class >> basicAddHacks [
-	super basicAddHacks.
-	
-	self
-		addNativeBoostComponents;
-		addPackageManifest
-]
-
 { #category : #'private-extensions-znbufferedreadstream' }
 FLPharoPlatform class >> fuelNextWordsInto: aWordObject [
 	<flExtensionOf: #ZnBufferedReadStream>

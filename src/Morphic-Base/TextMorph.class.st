@@ -184,6 +184,12 @@ TextMorph >> areasRemainingToFill: aRectangle [
 				ifFalse: [^ aRectangle areasOutside: self bounds]]
 ]
 
+{ #category : #converting }
+TextMorph >> asReadOnlyMorph [
+
+	^ StringMorph contents: self text
+]
+
 { #category : #accessing }
 TextMorph >> asText [
 	^ text
@@ -1049,7 +1055,6 @@ TextMorph >> justified [
 TextMorph >> keyStroke: evt [
 	"Handle a keystroke event."
 
-	self traceCr: 'TextMorph'.
 	self basicKeyStroke: evt
 ]
 
@@ -1098,7 +1103,7 @@ TextMorph >> manageCursor [
 		ifTrue: [^ self
 				resetBlinkCursor;
 				stopBlinking].
-	Editor blinkingCursor 
+	TextEditor blinkingCursor 
 		ifTrue: [self startBlinking]
 		ifFalse: [self ensureCursor]
 ]

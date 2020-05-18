@@ -489,7 +489,7 @@ RPackageOrganizer >> initializeExtensionsFor: aBehavior protocol: aProtocol [
 	package := self packageMatchingExtensionName: protocolName.
 	package ifNil: [
 		package := self basicRegisterPackage: (self packageClass named: protocolName) ].
-	nonTraitMethods := aProtocol methods 
+	nonTraitMethods := aProtocol methodSelectors 
 		select: [ :eachSelector | (aBehavior >> eachSelector) origin = aBehavior ].
 	nonTraitMethods ifEmpty:[^ self].
 	self registerExtendingPackage: package forClass: aBehavior.
@@ -528,7 +528,7 @@ RPackageOrganizer >> initializeMethodsFor: aBehavior [
 	(aBehavior organization protocols
 		select: [ :each | each isExtensionProtocol not ])
 		do: [ :eachProtocol | 
-			 (eachProtocol methods 
+			 (eachProtocol methodSelectors 
 				select: [ :eachSelector | (aBehavior >> eachSelector) origin = aBehavior ])
 				do: [ :eachSelector | package addMethod: (aBehavior >> eachSelector) ] ]
 ]
@@ -713,7 +713,7 @@ RPackageOrganizer >> packageOf: aClass [
 { #category : #'package access from class' }
 RPackageOrganizer >> packageOfClassNamed: aName [
 
-	self flag: self. "shouldProbablyReturnUnunpackagedPackage instead of nil"
+	self flag: #pharoFixMe. "Should probably return _UnunpackagedPackage instead of nil"
 	^ classPackageMapping at: aName asSymbol ifAbsent: [nil]
 ]
 
@@ -879,7 +879,7 @@ RPackageOrganizer >> reportBogusBehaviorOf: aSelector [
 { #category : #private }
 RPackageOrganizer >> reportExtraRemovalOf: aClass [
 
-	self traceCr:  'The class ',  aClass name printString, 'is removed twice'.
+	self traceCr: 'The class ', aClass name printString , ' is removed twice'
 ]
 
 { #category : #'public registration' }
